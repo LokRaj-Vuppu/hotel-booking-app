@@ -1,9 +1,9 @@
-import { StyleSheet, Text, View, ActivityIndicator } from 'react-native'
-import React, { useLayoutEffect, useEffect, useState } from 'react'
-import { useNavigation } from '@react-navigation/native';
+import { StyleSheet, Text, View, ActivityIndicator } from "react-native";
+import React, { useLayoutEffect, useEffect, useState } from "react";
+import { useNavigation } from "@react-navigation/native";
 import { SafeAreaView } from "react-native-safe-area-context";
 import { auth } from "../firebase";
-import { ScrollView } from 'react-native-web';
+import { ScrollView } from "react-native-web";
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "../firebase";
 
@@ -28,7 +28,6 @@ const ProfileScreen = () => {
       },
     });
   }, []);
-
 
   useEffect(() => {
     const fetchUser = async (uid) => {
@@ -55,36 +54,44 @@ const ProfileScreen = () => {
 
   return (
     <SafeAreaView>
-      {userDetails ? (<>
-        <View style={{marginHorizontal:20, marginVertical:20, flexDirection:"row", gap:10}}>
-        <Text style={{fontSize:20, fontWeight:"300"}}>Email : </Text>
-        <Text style={{fontSize:20, fontWeight:"bold"}}>{userDetails.email}</Text>
-      </View>
-      <View style={{marginHorizontal:20, flexDirection:"row", gap:10}}>
-        <Text style={{fontSize:20, fontWeight:"300"}}>Phone : </Text>
-        <Text style={{fontSize:20, fontWeight:"bold"}}>{userDetails.phoneNumber}</Text>
-      </View>
-      </>) : (
-        // <Text>Loading Profile details...</Text>
-        <View style={[styles.container, styles.horizontal]}>
-          <ActivityIndicator size="large" />
-          <Text>Fetching profile Details</Text>
+      {userDetails ? (
+        <>
+          <View
+            style={{
+              marginHorizontal: 20,
+              marginVertical: 20,
+              flexDirection: "row",
+              gap: 10,
+            }}
+          >
+            <Text style={{ fontSize: 20, fontWeight: "300" }}>Email : </Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {userDetails.email}
+            </Text>
+          </View>
+          <View style={{ marginHorizontal: 20, flexDirection: "row", gap: 10 }}>
+            <Text style={{ fontSize: 20, fontWeight: "300" }}>Phone : </Text>
+            <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+              {userDetails.phoneNumber}
+            </Text>
+          </View>
+        </>
+      ) : (
+        <View style={styles.loadingContainer}>
+          <ActivityIndicator size="large" color="#003580" />
         </View>
-      ) }
+      )}
     </SafeAreaView>
-  )
-}
+  );
+};
 
-export default ProfileScreen
+export default ProfileScreen;
 
 const styles = StyleSheet.create({
-  container: {
+  loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.1)", // Add background color for visibility
   },
-  horizontal: {
-    flexDirection: 'row',
-    justifyContent: 'space-around',
-    padding: 10,
-  },
-})
+});
